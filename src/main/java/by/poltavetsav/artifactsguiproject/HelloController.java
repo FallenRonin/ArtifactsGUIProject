@@ -1,7 +1,5 @@
 package by.poltavetsav.artifactsguiproject;
 
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
@@ -13,17 +11,10 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 import java.net.http.HttpResponse;
-import java.util.Collections;
 
 public class HelloController {
 
     CharacterController characterController;
-
-
-    @FXML
-    private TableView<MapTile> worldMapTable;
-
-
 
     @FXML
     private Label checkApiLabel, hpLabel, levelLabel, xLabel, yLabel;
@@ -56,7 +47,7 @@ public class HelloController {
         for (int i = 0; i < 16; i++) {
             TableColumn<MapTile, String> column = new TableColumn<>(String.valueOf(i));
             column.setCellValueFactory(new PropertyValueFactory<>("coords"));
-            worldMapTable.getColumns().add(column);
+          //  worldMapTable.getColumns().add(column);
         }
         do {
             HttpResponse<String> response = characterController.getMap(page);
@@ -68,14 +59,12 @@ public class HelloController {
             int counter = 0;
 
 
-         //   ObservableList<MapTile> mapTiles = FXCollections.observableList(Collections.singletonList(new MapTile(5, 5, "aboba")));
 
             for ( Object object : jsonArray){
                 MapTile tile = new MapTile((int)((JSONObject) object).get("x"),
                         (int)((JSONObject) object).get("y"),
                         ((JSONObject) object).get("x").toString());
-                        worldMapTable.getItems().add(tile);
-              //  mapGrid.add(, 0, 0);
+                       // worldMapTable.getItems().add(tile);
             }
         }
         while (processedTiles < totalTiles);
