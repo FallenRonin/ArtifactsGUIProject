@@ -19,12 +19,11 @@ public class CharacterController {
     final static String token = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9." +
             "eyJ1c2VybmFtZSI6IkZhbGxlblJvbmluIiwicGFzc3dvc" +
             "mRfY2hhbmdlZCI6IiJ9.oYz7SV6s2y_WBnk-v8y2LpbVRAO6v2LVSHNyAAf-4nQ";
-    boolean coolDown = false;
 
     public CharacterController(String characterName) throws IOException, InterruptedException {
         this.characterName = characterName;
         this.client = HttpClient.newBuilder().build();
-        characterInfo = refreshCharacterInfo();
+        refreshCharacterInfo();
     }
 
     public boolean checkAPI() throws IOException, InterruptedException {
@@ -38,11 +37,11 @@ public class CharacterController {
         return false;
     }
 
-    public void move() throws IOException, InterruptedException {
+    public int move(int x, int y) throws IOException, InterruptedException {
 
         JSONObject jsonObject = new JSONObject();
-        //jsonObject.put("x", x);
-        // jsonObject.put("y", y);
+        jsonObject.put("x", x);
+        jsonObject.put("y", y);
 
         HttpRequest httpRequest = HttpRequest.newBuilder(URI.create("https://api.artifactsmmo.com" +
                         "/my/" + characterName + "/action/move"))
@@ -50,6 +49,8 @@ public class CharacterController {
                 .POST(HttpRequest.BodyPublishers.ofString(jsonObject.toString()))
                 .build();
         HttpResponse<String> response = client.send(httpRequest, HttpResponse.BodyHandlers.ofString());
+        JSONObject jsonResult = (JSONObject) new JSONObject(response.body()).get("data");
+        return (int) (jsonResult.getJSONObject("cooldown").get("remaining_seconds"));
     }
 
     public HttpResponse getMap(int page) throws IOException, InterruptedException {
@@ -63,7 +64,7 @@ public class CharacterController {
         return response;
     }
 
-    public HashMap refreshCharacterInfo() throws IOException, InterruptedException {
+    public void refreshCharacterInfo() throws IOException, InterruptedException {
         HttpRequest httpRequest = HttpRequest.newBuilder(URI.create("https://api.artifactsmmo.com" +
                         "/characters/" + characterName))
                 .headers("Content-Type", "application/json", "Authorization", "Bearer " + token)
@@ -73,7 +74,7 @@ public class CharacterController {
 
 
         JSONObject jsonResult = (JSONObject) new JSONObject(response.body()).get("data");
-        return (HashMap) jsonResult.toMap();
+        characterInfo = (HashMap) jsonResult.toMap();
     }
 
 }

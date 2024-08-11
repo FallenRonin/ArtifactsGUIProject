@@ -7,40 +7,55 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 
-<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="619.0"
-      prefWidth="855.0" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1"
-      fx:controller="by.poltavetsav.artifactsguiproject.HelloController">
-   <Label fx:id="checkApiLabel" alignment="CENTER" layoutX="768.0" layoutY="38.0" prefHeight="27.0" prefWidth="69.0"
-          textAlignment="CENTER" textFill="RED">
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" pickOnBounds="false" prefHeight="814.0" prefWidth="1440.0" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="by.poltavetsav.artifactsguiproject.HelloController">
+   <Label fx:id="checkApiLabel" alignment="CENTER" layoutX="1301.0" layoutY="40.0" prefHeight="27.0" prefWidth="69.0" textAlignment="CENTER" textFill="RED">
       <font>
-         <Font size="18.0"/>
+         <Font size="18.0" />
       </font>
    </Label>
-   <Button fx:id="checkApiButton" alignment="TOP_RIGHT" layoutX="768.0" layoutY="12.0" mnemonicParsing="false"
-           onAction="#onCheckApiButtonClick" prefHeight="25.0" prefWidth="69.0" text="Check API">
+   <Button fx:id="checkApiButton" alignment="TOP_RIGHT" layoutX="1301.0" layoutY="14.0" mnemonicParsing="false" onAction="#onCheckApiButtonClick" prefHeight="25.0" prefWidth="69.0" text="Check API">
       <cursor>
-         <Cursor fx:constant="HAND"/>
+         <Cursor fx:constant="HAND" />
       </cursor>
    </Button>
    <Label fx:id="hpLabel" layoutX="14.0" layoutY="38.0" text="HP: " textFill="#fc0505">
       <font>
-         <Font name="System Bold Italic" size="20.0"/>
+         <Font name="System Bold Italic" size="20.0" />
       </font>
    </Label>
    <Label fx:id="levelLabel" layoutX="14.0" layoutY="68.0" text="Level:" textFill="#3fe112">
       <font>
-         <Font name="System Bold Italic" size="20.0"/>
+         <Font name="System Bold Italic" size="20.0" />
       </font>
    </Label>
    <Label layoutX="14.0" layoutY="98.0" text="X: " textFill="#75752a" fx:id="xLabel">
       <font>
-         <Font name="System Bold Italic" size="20.0"/>
+         <Font name="System Bold Italic" size="20.0" />
       </font>
    </Label>
    <Label fx:id="yLabel" layoutX="14.0" layoutY="128.0" text="Y: " textFill="#75752a">
       <font>
-         <Font name="System Bold Italic" size="20.0"/>
+         <Font name="System Bold Italic" size="20.0" />
       </font>
    </Label>
-   <TableView fx:id="worldMapTable" layoutX="116.0" layoutY="68.0" prefHeight="534.0" prefWidth="706.0"/>
+   <Label fx:id="currentPositionLabel" layoutX="116.0" layoutY="36.0" textFill="#4baff2">
+      <font>
+         <Font name="System Bold" size="22.0" />
+      </font>
+   </Label>
+   <Label fx:id="chosenPositionLabel" layoutX="116.0" layoutY="82.0" textFill="#4baff2">
+      <font>
+         <Font name="System Bold" size="22.0" />
+      </font>
+   </Label>
+   <TableView fx:id="worldMapTable" layoutX="9.0" layoutY="266.0" prefHeight="534.0" prefWidth="1425.0">
+      <columnResizePolicy>
+         <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+      </columnResizePolicy></TableView>
+   <Button fx:id="moveButton" layoutX="14.0" layoutY="170.0" mnemonicParsing="false" onAction="#onMoveButtonClick" prefHeight="49.0" prefWidth="143.0" style="-fx-background-color: goldenrod;" text="Move to selected tile" textFill="#ffee00" />
+   <Label fx:id="cooldownLabel" layoutX="116.0" layoutY="121.0" textFill="#d953eb">
+      <font>
+         <Font name="System Bold" size="30.0" />
+      </font>
+   </Label>
 </Pane>
