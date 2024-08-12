@@ -1,12 +1,14 @@
 package by.poltavetsav.artifactsguiproject;
 
-import javafx.application.Platform;
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Paint;
 import javafx.util.Callback;
+import javafx.util.Duration;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -18,11 +20,16 @@ import java.util.HashMap;
 public class HelloController {
 
     private int startingX, startingY;
+    private int cooldownTime;
+    private Timeline timeline;
     public static MapTile[][] tiles;
     CharacterController characterController;
 
     @FXML
     private TableView worldMapTable;
+
+    @FXML
+    private ButtonBar buttonBar;
 
     @FXML
     private Label checkApiLabel, hpLabel, levelLabel, xLabel, yLabel, currentPositionLabel, chosenPositionLabel, cooldownLabel;
@@ -38,11 +45,11 @@ public class HelloController {
 
     @FXML
     public void onMoveButtonClick() throws IOException, InterruptedException {
-        characterController.move(startingX, startingY);
-       // CooldownThread cooldownThread = new CooldownThread(characterController.move(startingX, startingY), cooldownLabel);
-     //   cooldownThread.setDaemon(true);
-    //   // Platform.runLater(cooldownThread);
-      //  cooldownThread.start();
+        startCooldown(characterController.move(startingX, startingY));
+        // CooldownThread cooldownThread = new CooldownThread(characterController.move(startingX, startingY), cooldownLabel);
+        //   cooldownThread.setDaemon(true);
+        //   // Platform.runLater(cooldownThread);
+        //  cooldownThread.start();
         renderMap();
         refreshLabels();
     }
@@ -235,5 +242,25 @@ public class HelloController {
                 startingY = row - 5;
             }
         });
+    }
+
+    private void startCooldown(int cooldownTimeSec) {
+        cooldownTime = cooldownTimeSec;
+        cooldownLabel.setText("Cooldown: " + cooldownTime + " seconds");
+        buttonBar.setDisable(true);
+
+        timeline = new Timeline(new KeyFrame(Duration.seconds(1), event -> {
+            cooldownTime--;
+            cooldownLabel.setText("Cooldown: " + cooldownTime + " seconds");
+
+            if (cooldownTime <= 0) {
+                timeline.stop();
+                cooldownLabel.setText("Ready!");
+                buttonBar.setDisable(false);
+            }
+        }));
+
+        timeline.setCycleCount(cooldownTime);
+        timeline.play();
     }
 }
